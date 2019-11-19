@@ -4,6 +4,7 @@ import { Controller } from './main.controller';
 
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 class App {
     public app: Application;
@@ -13,6 +14,7 @@ class App {
     constructor() {
         this.app = express();
         this.setConfig();
+        this.setMongoConfig();
 
         this.pokeController = new Controller(this.app);
     }
@@ -26,6 +28,13 @@ class App {
 
         //Enables cors   
         this.app.use(cors());
+    }
+
+    private setMongoConfig() {
+        mongoose.Promise = global.Promise;
+        mongoose.connect("mongodb://localhost:27017/Pokemon", {
+            useNewUrlParser: true
+        });
     }
 }
 
